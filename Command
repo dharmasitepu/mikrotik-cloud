@@ -3,6 +3,11 @@
 = ( OS Ubuntu 20.04 Server ) ( 1 vCPU 1 GiB ) ( Disk 40 GB ) ( Public IP = 47.254.244.29 )    =
 ===============================================================================================
 
+
+===============================================================================================
+============================= Install Secara Langsung di Host OS ==============================
+===============================================================================================
+
 wget https://download2.mikrotik.com/routeros/6.38.3/chr-6.38.3.img.zip -O chr.img.zip  && \
 gunzip -c chr.img.zip > chr.img  && \
 mount -o loop,offset=33554944 chr.img /mnt && \
@@ -15,9 +20,58 @@ umount /mnt && \
 echo u > /proc/sysrq-trigger && \
 dd if=chr.img bs=1024 of=/dev/vda
 
-=============
-Stop Server
-Start Server
-=============
+==================
+== Stop Server  ==
+== Start Server ==
+==================
+/user set [find name=admin] password=123
+===============================================================================================
+= Buka Port yang dibutuhkan pada portal Alibaba Cloud (provider cloud yang kalian gunakan)    =
+= Port defaut winbox = 8291                                                                   =
+===============================================================================================
+login
+user : admin
+pass : 123
+===============================================================================================
+=============================                  END               ==============================
+===============================================================================================
 
-/user set [find name=username] password=password
+
+
+
+
+
+===============================================================================================
+=============================== Install Dengan Docker Conrainer ===============================
+===============================================================================================
+
+# apt update
+# apt install docker-compose -y
+# mkdir docker composer
+# cd docker composer
+# nano docker-compose.yml
+////////////////////////////////////
+// isi dengan configurasi berikut //
+////////////////////////////////////
+version: "2"
+services:
+ routeros-6-49beta22:
+    image: dharma007/mikrotik-cloud
+    restart: unless-stopped
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    ports:
+      - "2222:22"
+      - "2223:23"
+      - "7777:80"
+      - "8728:8728"
+      - "8729:8729"
+      - "28728:8728"
+      - "28729:8729"
+      - "8291:8291"
+////////////////////////////////////
+# docker-compose up -d
+
