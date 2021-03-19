@@ -19,3 +19,5 @@ dd if=chr.img bs=1024 of=/dev/vda
 Stop Server
 Start Server
 =============
+
+/user set [find name=username] password=password
