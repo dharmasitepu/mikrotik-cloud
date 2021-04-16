@@ -47,8 +47,8 @@ pass : 123
 
 # apt update
 # apt install docker-compose -y
-# mkdir docker composer
-# cd docker composer
+# mkdir composer
+# cd composer
 # nano docker-compose.yml
 ////////////////////////////////////
 // isi dengan configurasi berikut //
